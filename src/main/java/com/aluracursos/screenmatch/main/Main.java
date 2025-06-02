@@ -38,7 +38,7 @@ public class Main {
             var datosTemporada = conversor.obtenerDatos(json, DatosTemporada.class);
             temporadas.add(datosTemporada);
         }
-       // temporadas.forEach(System.out::println);
+        temporadas.forEach(System.out::println);
 
         // Mostrar solo el título para los episodios de cada temporada
 //        for (int i = 0; i < datos.totalTemporadas(); i++) { // Itera la lista de temporadas para conseguir traer todos los episodios
@@ -57,16 +57,16 @@ public class Main {
                 .collect(Collectors.toList()); // Almacena la lista de episodios y es mutable
 
         // Top 5 episodios
-//        System.out.println("Top 5 episodios con mejor evaluación:");
-//        datosEpisodios.stream()
-//                .filter(e -> !e.evaluacion().equalsIgnoreCase("N/A"))// Filtra episodios con evaluación e ignora "N/A"
-////                .peek(e -> System.out.println("Primer filtro N/A: " + e)) // Observa los episodios que pasan el filtro
-//                .sorted(Comparator.comparing(DatosEpisodio::evaluacion).reversed()) // Ordena los episodios por evaluación de forma descendente
-////                .peek(e -> System.out.println("Segundo filtro (Mayor a menor): " + e))
-////                .map(e -> e.tituloEpisodio().toUpperCase())
-////                .peek(e -> System.out.println("Tercer filtro MAYÚSCULAS (menor a Mayor): " + e))
-//                .limit(5) // Limita a los 5 primeros episodios
-//                .forEach(System.out::println);
+        System.out.println("Top 5 episodios con mejor evaluación:");
+        datosEpisodios.stream()
+                .filter(e -> !e.evaluacion().equalsIgnoreCase("N/A"))// Filtra episodios con evaluación e ignora "N/A"
+//                .peek(e -> System.out.println("Primer filtro N/A: " + e)) // Observa los episodios que pasan el filtro
+                .sorted(Comparator.comparing(DatosEpisodio::evaluacion).reversed()) // Ordena los episodios por evaluación de forma descendente
+//                .peek(e -> System.out.println("Segundo filtro (Mayor a menor): " + e))
+//                .map(e -> e.tituloEpisodio().toUpperCase())
+//                .peek(e -> System.out.println("Tercer filtro MAYÚSCULAS (menor a Mayor): " + e))
+                .limit(5) // Limita a los 5 primeros episodios
+                .forEach(System.out::println);
 
         // Convirtiendo los datos a una lista del tipo Episodios
         List<Episodio> listaEpisodios = temporadas.stream()
@@ -74,26 +74,26 @@ public class Main {
                         .map(d -> new Episodio(t.numeroTemporada(), d)))
                 .collect(Collectors.toList()); // Almacena la lista de episodios en una lista
 
-        //listaEpisodios.forEach(System.out::println);
+        listaEpisodios.forEach(System.out::println);
 
         // Busqueda de episodios a partir de X año
-//      System.out.println("Ingrese el año a partir del cual desea buscar los episodios: ");
-//      var fecha = scanner.nextInt();
+        System.out.println("Ingrese el año a partir del cual desea buscar los episodios: ");
+        var fecha = scanner.nextInt();
 
         // Crea una fecha de búsqueda con el primer día del año
-//      LocalDate fechaBusqueda = LocalDate.of(fecha, 1, 1);
+        LocalDate fechaBusqueda = LocalDate.of(fecha, 1, 1);
 
         // Formateador para mostrar la fecha en el formato dd/MM/yyyy
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         // Filtra los episodios que se lanzaron a partir de la fecha indicada
-//        listaEpisodios.stream()
-//                .filter(e -> e.getFechaLanzamiento() != null && e.getFechaLanzamiento().isAfter(fechaBusqueda))
-//                .forEach(e -> System.out.println(
-//                        "Temporada: " + e.getTemporada() +
-//                                ", Episodio: " + e.getTitulo() +
-//                                ", Fecha de lanzamiento: " + e.getFechaLanzamiento().format(dtf) // Se pasa el formateador
-//                ));
+        listaEpisodios.stream()
+                .filter(e -> e.getFechaLanzamiento() != null && e.getFechaLanzamiento().isAfter(fechaBusqueda))
+                .forEach(e -> System.out.println(
+                        "Temporada: " + e.getTemporada() +
+                                ", Episodio: " + e.getTitulo() +
+                                ", Fecha de lanzamiento: " + e.getFechaLanzamiento().format(dtf) // Se pasa el formateador
+                ));
 
         // Buscar episodios por un pedazo del título
         System.out.println("Ingrese un pedazo del título de los episodios que desea buscar: ");
