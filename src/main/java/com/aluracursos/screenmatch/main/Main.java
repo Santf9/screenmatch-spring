@@ -122,5 +122,12 @@ public class Main {
                         Collectors.averagingDouble(Episodio::getEvaluacion)));
         System.out.println("Evaluación promedio por temporada: " + evaluacionesPorTemporada);
 
+        // Estadísticas con DoubleSummaryStatistics para promedio máximo y mínimo de las evaluaciones
+        DoubleSummaryStatistics est = listaEpisodios.stream()
+                .filter(e -> e.getEvaluacion() > 0.0)
+                .collect(Collectors.summarizingDouble(Episodio::getEvaluacion));
+        System.out.println("La media de las evaluaciones es: " + est.getAverage() +
+                ",\n El episodio mejor evaluado es: " + est.getMax() +
+                ",\n El episodio peor evaluado es: " + est.getMin());
     }
 }
