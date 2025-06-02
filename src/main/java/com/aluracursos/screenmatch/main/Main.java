@@ -99,7 +99,7 @@ public class Main {
         System.out.println("Ingrese un pedazo del título de los episodios que desea buscar: ");
         var pedazoTitulo = scanner.nextLine();
 
-        // Utiliza Optional para manejar el caso en que no se encuentre ningún episodio | Puede que contenga o no contenga
+        // Contenedor Optional para manejar el caso en que no se encuentre ningún episodio | Evitar referencias nulas
         Optional<Episodio> episodioBuscado = listaEpisodios.stream()
                 .filter(e -> e.getTitulo().toUpperCase().contains(pedazoTitulo.toUpperCase()))
                 .findFirst();// Operación terminal
@@ -127,7 +127,8 @@ public class Main {
                 .filter(e -> e.getEvaluacion() > 0.0)
                 .collect(Collectors.summarizingDouble(Episodio::getEvaluacion));
         System.out.println("La media de las evaluaciones es: " + est.getAverage() +
-                ",\n El episodio mejor evaluado es: " + est.getMax() +
-                ",\n El episodio peor evaluado es: " + est.getMin());
+                ",\nEl episodio mejor evaluado es: " + est.getMax() +
+                ",\nEl episodio peor evaluado es: " + est.getMin() +
+                ",\nEl total de episodios es: " + est.getCount());
     }
 }
