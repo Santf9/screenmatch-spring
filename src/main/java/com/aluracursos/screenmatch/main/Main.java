@@ -72,19 +72,19 @@ public class Main {
         List<Episodio> listaEpisodios = temporadas.stream()
                 .flatMap(t -> t.episodios().stream()
                         .map(d -> new Episodio(t.numeroTemporada(), d)))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()); // Almacena la lista de episodios en una lista
 
         //listaEpisodios.forEach(System.out::println);
 
         // Busqueda de episodios a partir de X año
-//        System.out.println("Ingrese el año a partir del cual desea buscar los episodios: ");
-//        var fecha = scanner.nextInt();
+//      System.out.println("Ingrese el año a partir del cual desea buscar los episodios: ");
+//      var fecha = scanner.nextInt();
 
         // Crea una fecha de búsqueda con el primer día del año
-        //LocalDate fechaBusqueda = LocalDate.of(fecha, 1, 1);
+//      LocalDate fechaBusqueda = LocalDate.of(fecha, 1, 1);
 
         // Formateador para mostrar la fecha en el formato dd/MM/yyyy
-          DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         // Filtra los episodios que se lanzaron a partir de la fecha indicada
 //        listaEpisodios.stream()
@@ -114,6 +114,13 @@ public class Main {
         } else {
             System.out.println("No se encontró ningún episodio con el título proporcionado.");
         }
+
+        // Calcular la evaluación promedio por temporada
+        Map<Integer, Double> evaluacionesPorTemporada = listaEpisodios.stream()
+                .filter(e -> e.getEvaluacion() > 0.0) // Filtra episodios con evaluación válida
+                .collect(Collectors.groupingBy(Episodio::getTemporada,
+                        Collectors.averagingDouble(Episodio::getEvaluacion)));
+        System.out.println("Evaluación promedio por temporada: " + evaluacionesPorTemporada);
 
     }
 }
