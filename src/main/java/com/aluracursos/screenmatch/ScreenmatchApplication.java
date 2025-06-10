@@ -1,6 +1,7 @@
 package com.aluracursos.screenmatch;
 
 import com.aluracursos.screenmatch.main.Main;
+import com.aluracursos.screenmatch.main.MainObtenerDatosSerie;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,12 +17,10 @@ public class ScreenmatchApplication implements CommandLineRunner {
 	public void run(String... args) {
 		//System.out.println("Hola, Spring Screenmatch!");
 
-		// Instancia de la clase Main y mostrar el menú
-		Main main = new Main();
-		main.mostrarMenu();
+		// Instancia de la clase MainObtenerDatos y mostrar el menú
+		MainObtenerDatosSerie mainObtenerDatos = new MainObtenerDatosSerie();
+		mainObtenerDatos.mostrarMenu();
 
-    	// EjemploStream ejemploStream = new EjemploStream();
-  		// ejemploStream.ejemploStream();
 
 	}
 }
