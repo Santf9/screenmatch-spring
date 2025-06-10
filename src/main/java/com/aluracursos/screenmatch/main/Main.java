@@ -9,12 +9,12 @@ import java.util.*;
 
 public class Main {
 
-    private Scanner scanner = new Scanner(System.in);
-    private ConsumoAPI consumoApi = new ConsumoAPI();
+    private final Scanner scanner = new Scanner(System.in);
+    private final ConsumoAPI consumoApi = new ConsumoAPI();
     private final String URL_BASE = "https://www.omdbapi.com/?t=";
     private final Dotenv dotenv = Dotenv.load();
-    private ConvertirDatos conversor = new ConvertirDatos();
-    private List<DatosSerie> datosSeries = new ArrayList<>();
+    private final ConvertirDatos conversor = new ConvertirDatos();
+    private final List<DatosSerie> datosSeries = new ArrayList<>();
 
     String apiKey = dotenv.get("API_KEY");
 
@@ -26,7 +26,7 @@ public class Main {
                     2) - Buscar episodios
                     3) - Mostrar series buscadas
                   
-                    0 - Salir
+                    0) - Salir
                     """;
 
             System.out.println(menu);
@@ -57,8 +57,7 @@ public class Main {
         var nombreSerie = scanner.nextLine();
         var json = consumoApi.obtenerDatos(URL_BASE + nombreSerie.replace(" ", "+") + "&apikey=" + apiKey);
         System.out.println(json);
-        DatosSerie datos = conversor.obtenerDatos(json, DatosSerie.class);
-        return datos;
+        return conversor.obtenerDatos(json, DatosSerie.class);
     }
 
     private void buscarEpisodioPorSerie() {

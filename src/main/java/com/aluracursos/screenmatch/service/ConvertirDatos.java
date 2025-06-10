@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ConvertirDatos implements IConvierteDatos {
     // Instancia de ObjectMapper para convertir JSON a objetos Java
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     // Metodo genérico de la interfaz IConvierteDatos
     @Override
