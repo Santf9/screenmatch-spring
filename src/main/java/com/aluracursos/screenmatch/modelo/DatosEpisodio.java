@@ -3,6 +3,7 @@ package com.aluracursos.screenmatch.modelo;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+// Anotación para ignorar propiedades desconocidas en la deserialización
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record DatosEpisodio(
 
