@@ -18,8 +18,11 @@ public class ScreenmatchApplication implements CommandLineRunner {
 		//System.out.println("Hola, Spring Screenmatch!");
 
 		// Instancia de la clase MainObtenerDatos y mostrar el menú
-		MainObtenerDatosSerie mainObtenerDatos = new MainObtenerDatosSerie();
-		mainObtenerDatos.mostrarMenu();
+//		MainObtenerDatosSerie mainObtenerDatos = new MainObtenerDatosSerie();
+//		mainObtenerDatos.mostrarMenu();
+
+		Main main = new Main();
+		main.mostrarMenu();
 
 
 	}

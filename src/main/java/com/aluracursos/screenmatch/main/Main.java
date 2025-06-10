@@ -1,16 +1,11 @@
 package com.aluracursos.screenmatch.main;
-
-import com.aluracursos.screenmatch.modelo.DatosEpisodio;
 import com.aluracursos.screenmatch.modelo.DatosSerie;
 import com.aluracursos.screenmatch.modelo.DatosTemporada;
-import com.aluracursos.screenmatch.modelo.Episodio;
 import com.aluracursos.screenmatch.service.ConsumoAPI;
 import com.aluracursos.screenmatch.service.ConvertirDatos;
 import io.github.cdimascio.dotenv.Dotenv;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 public class Main {
 
@@ -19,6 +14,7 @@ public class Main {
     private final String URL_BASE = "https://www.omdbapi.com/?t=";
     private final Dotenv dotenv = Dotenv.load();
     private ConvertirDatos conversor = new ConvertirDatos();
+    private List<DatosSerie> datosSeries = new ArrayList<>();
 
     String apiKey = dotenv.get("API_KEY");
 
@@ -26,10 +22,10 @@ public class Main {
         var opcion = -1;
         while (opcion != 0) {
             var menu = """
-                    1 - Buscar series 
-                    2 - Buscar episodios
-                    3 - Mostrar series buscadas
-                                  
+                    1) - Buscar series
+                    2) - Buscar episodios
+                    3) - Mostrar series buscadas
+                  
                     0 - Salir
                     """;
 
@@ -44,6 +40,9 @@ public class Main {
                 case 2:
                     buscarEpisodioPorSerie();
                     break;
+                case 3:
+                    mostrarSeriesBuscadas();
+                    break;
                 case 0:
                     System.out.println("Cerrando la aplicación...");
                     break;
@@ -54,7 +53,7 @@ public class Main {
     }
 
     private DatosSerie getDatosSerie() {
-        System.out.println("Escribe el nombre de la serie que deseas buscar");
+        System.out.println("Escribe el nombre de la serie que deseas buscar: ");
         var nombreSerie = scanner.nextLine();
         var json = consumoApi.obtenerDatos(URL_BASE + nombreSerie.replace(" ", "+") + "&apikey=" + apiKey);
         System.out.println(json);
@@ -64,7 +63,7 @@ public class Main {
 
     private void buscarEpisodioPorSerie() {
         DatosSerie datosSerie = getDatosSerie();
-        List<DatosTemporada> temporadas = new ArrayList<>();
+        List<DatosTemporada> temporadas = new ArrayList<>(); // Lista para almacenar los episodios de la serie
 
         for (int i = 1; i <= datosSerie.totalTemporadas(); i++) {
             var json = consumoApi.obtenerDatos(URL_BASE + datosSerie.titulo().replace(" ", "+") + "&season=" + i + "&apikey=" + apiKey);
@@ -77,6 +76,13 @@ public class Main {
     private void buscarSerieWeb() {
         DatosSerie datos = getDatosSerie();
         System.out.println(datos);
+        datosSeries.add(datos); // Agregar la serie a la lista de series buscadas
+        System.out.println(datos);
+    }
+
+    private void mostrarSeriesBuscadas() {
+        datosSeries.forEach(System.out::println);
+
     }
 
 }
