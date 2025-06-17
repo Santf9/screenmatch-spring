@@ -1,10 +1,12 @@
 package com.aluracursos.screenmatch.main;
 import com.aluracursos.screenmatch.modelo.DatosSerie;
 import com.aluracursos.screenmatch.modelo.DatosTemporada;
+import com.aluracursos.screenmatch.modelo.Serie;
 import com.aluracursos.screenmatch.service.ConsumoAPI;
 import com.aluracursos.screenmatch.service.ConvertirDatos;
 import io.github.cdimascio.dotenv.Dotenv;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class Main {
@@ -80,9 +82,14 @@ public class Main {
     }
 
     private void mostrarSeriesBuscadas() {
-        datosSeries.forEach(System.out::println);
+        List<Serie> series = new ArrayList<>();
+        series = datosSeries.stream()
+                .map(dato -> new Serie(dato))
+                .collect(Collectors.toList());
 
+        series.stream()
+                .sorted(Comparator.comparing(Serie::getGenero))
+                .forEach(System.out::println);
     }
-
 }
 
