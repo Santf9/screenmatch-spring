@@ -1,5 +1,7 @@
 package com.aluracursos.screenmatch.modelo;
 
+import com.aluracursos.screenmatch.service.ConsultaGemini;
+
 import java.util.OptionalDouble;
 
 public class Serie {
@@ -19,12 +21,12 @@ public class Serie {
         this.poster = datosSerie.poster();
         this.genero = Categoria.fromString(datosSerie.genero().split(",")[0].trim()); // Asumiendo que el género es una cadena separada por comas
         this.actores = datosSerie.actores();
-        this.sinopsis = datosSerie.sinopsis();
+        this.sinopsis = ConsultaGemini.obtenerTraduccion(datosSerie.sinopsis());
     }
 
     @Override
     public String toString() {
-        return  "genero=" + genero + '\'' +
+        return  "genero='" + genero + '\'' +
                 ", titulo='" + titulo + '\'' +
                 ", totalTemporadas=" + totalTemporadas +
                 ", evaluacion=" + evaluacion +
