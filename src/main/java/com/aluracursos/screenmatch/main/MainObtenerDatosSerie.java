@@ -54,7 +54,7 @@ public class MainObtenerDatosSerie {
         // Convertir todas las informaciones a una lista del tipo DatosEpisodio
         List<DatosEpisodio> datosEpisodios = temporadas.stream()
                 .flatMap(temporada -> temporada.episodios().stream())
-                .collect(Collectors.toList()); // Almacena la lista de episodios y es mutable
+                .toList(); // Almacena la lista de episodios y es mutable
 
         // Top 5 episodios
         System.out.println("Top 5 episodios con mejor evaluación:");
@@ -72,7 +72,7 @@ public class MainObtenerDatosSerie {
         List<Episodio> listaEpisodios = temporadas.stream()
                 .flatMap(t -> t.episodios().stream()
                         .map(d -> new Episodio(t.numeroTemporada(), d)))
-                .collect(Collectors.toList()); // Almacena la lista de episodios en una lista
+                .toList(); // Almacena la lista de episodios en una lista
 
         listaEpisodios.forEach(System.out::println);
 

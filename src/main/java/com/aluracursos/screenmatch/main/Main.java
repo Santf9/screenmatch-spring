@@ -85,7 +85,7 @@ public class Main {
         List<Serie> series = new ArrayList<>();
         series = datosSeries.stream()
                 .map(dato -> new Serie(dato))
-                .collect(Collectors.toList());
+                .toList();
 
         series.stream()
                 .sorted(Comparator.comparing(Serie::getGenero))
