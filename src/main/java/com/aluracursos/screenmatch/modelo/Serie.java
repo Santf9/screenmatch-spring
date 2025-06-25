@@ -1,15 +1,22 @@
 package com.aluracursos.screenmatch.modelo;
 
 import com.aluracursos.screenmatch.service.ConsultaGemini;
-
+import jakarta.persistence.*;
 import java.util.OptionalDouble;
 
+@Entity
+@Table(name = "series")
 public class Serie {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id; // Asumiendo que la clase tiene un campo id para la persistencia
+    @Column(unique = true) // Asegurando que el título sea único
     private String titulo;
     private Integer totalTemporadas;
     private Double evaluacion;
     private String poster;
+    @Enumerated(EnumType.STRING) // Usando EnumType.STRING para almacenar el nombre del género como cadena
     private Categoria genero;
     private String actores;
     private String sinopsis;
@@ -33,6 +40,14 @@ public class Serie {
                 ", poster='" + poster + '\'' +
                 ", actores='" + actores + '\'' +
                 ", sinopsis='" + sinopsis + '\'';
+    }
+
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
     }
 
     public String getTitulo() {
