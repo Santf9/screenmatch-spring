@@ -91,10 +91,17 @@ public class Main {
     }
 
     private void mostrarSeriesBuscadas() {
-        List<Serie> series = new ArrayList<>();
-        series = datosSeries.stream()
-                .map(dato -> new Serie(dato))
-                .toList();
+        List<Serie> series = repositorio.findAll(); // Obtener todas las series de la base de datos
+
+        if (series.isEmpty()) {
+            System.out.println("No hay series buscadas.");
+            return;
+        }
+
+//        List<Serie> series = new ArrayList<>();
+//        series = datosSeries.stream()
+//                .map(dato -> new Serie(dato))
+//                .toList();
 
         series.stream()
                 .sorted(Comparator.comparing(Serie::getGenero))

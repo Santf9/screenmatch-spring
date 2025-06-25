@@ -24,6 +24,10 @@ public class Serie {
     @Transient // Este campo no se persistirá en la base de datos
     private List<Episodio> episodios;
 
+    public Serie() {
+        // Constructor vacío por defecto necesario para JPA - declararlo manualmente
+    }
+
     public Serie(DatosSerie datosSerie) {
         this.titulo = datosSerie.titulo();
         this.totalTemporadas = datosSerie.totalTemporadas();
