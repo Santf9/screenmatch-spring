@@ -2,11 +2,11 @@ package com.aluracursos.screenmatch.main;
 import com.aluracursos.screenmatch.modelo.DatosSerie;
 import com.aluracursos.screenmatch.modelo.DatosTemporada;
 import com.aluracursos.screenmatch.modelo.Serie;
+import com.aluracursos.screenmatch.repository.SerieRepository;
 import com.aluracursos.screenmatch.service.ConsumoAPI;
 import com.aluracursos.screenmatch.service.ConvertirDatos;
 import io.github.cdimascio.dotenv.Dotenv;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 public class Main {
@@ -17,8 +17,13 @@ public class Main {
     private final Dotenv dotenv = Dotenv.load();
     private final ConvertirDatos conversor = new ConvertirDatos();
     private final List<DatosSerie> datosSeries = new ArrayList<>();
+    private SerieRepository repositorio;
 
     String apiKey = dotenv.get("API_KEY");
+
+    public Main(SerieRepository repository) {
+        this.repositorio = repository;
+    }
 
     public void mostrarMenu() {
         var opcion = -1;
@@ -77,8 +82,12 @@ public class Main {
     private void buscarSerieWeb() {
         DatosSerie datos = getDatosSerie();
         System.out.println(datos);
-        datosSeries.add(datos); // Agregar la serie a la lista de series buscadas
-        System.out.println(datos);
+
+        Serie serie = new Serie(datos);
+        repositorio.save(serie); // Guardar la serie en la base de datos
+
+        //datosSeries.add(datos); // Agregar la serie a la lista de series buscadas
+        //System.out.println(datos);
     }
 
     private void mostrarSeriesBuscadas() {

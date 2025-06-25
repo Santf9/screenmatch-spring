@@ -2,12 +2,18 @@ package com.aluracursos.screenmatch;
 
 import com.aluracursos.screenmatch.main.Main;
 import com.aluracursos.screenmatch.main.MainObtenerDatosSerie;
+import com.aluracursos.screenmatch.repository.SerieRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class ScreenmatchApplication implements CommandLineRunner {
+
+	// Inyectar el repositorio de Serie para poder interactuar con la base de datos - Inyección de dependencias
+	@Autowired
+	private SerieRepository repository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ScreenmatchApplication.class, args);
@@ -21,7 +27,7 @@ public class ScreenmatchApplication implements CommandLineRunner {
 //		MainObtenerDatosSerie mainObtenerDatos = new MainObtenerDatosSerie();
 //		mainObtenerDatos.mostrarMenu();
 
-		Main main = new Main();
+		Main main = new Main(repository); // Instancia de la clase Main con el repositorio inyectado
 		main.mostrarMenu();
 
 

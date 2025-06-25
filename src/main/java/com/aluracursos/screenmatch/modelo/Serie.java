@@ -2,6 +2,7 @@ package com.aluracursos.screenmatch.modelo;
 
 import com.aluracursos.screenmatch.service.ConsultaGemini;
 import jakarta.persistence.*;
+import java.util.List;
 import java.util.OptionalDouble;
 
 @Entity
@@ -9,8 +10,8 @@ import java.util.OptionalDouble;
 public class Serie {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id; // Asumiendo que la clase tiene un campo id para la persistencia
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Generación automática del ID
+    private Long Id; // Asumiendo que la clase tiene un campo id para la persistencia a la base de datos
     @Column(unique = true) // Asegurando que el título sea único
     private String titulo;
     private Integer totalTemporadas;
@@ -20,6 +21,8 @@ public class Serie {
     private Categoria genero;
     private String actores;
     private String sinopsis;
+    @Transient // Este campo no se persistirá en la base de datos
+    private List<Episodio> episodios;
 
     public Serie(DatosSerie datosSerie) {
         this.titulo = datosSerie.titulo();
