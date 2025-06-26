@@ -113,5 +113,11 @@ public class Serie {
         this.sinopsis = sinopsis;
     }
 
+    public List<Episodio> getEpisodios() {
+        return episodios;
+    }
 
+    public void setEpisodios(List<Episodio> episodios) {
+        this.episodios = episodios;
+    }
 }
