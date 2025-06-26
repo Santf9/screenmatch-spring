@@ -29,8 +29,9 @@ public class Serie {
 
     private String sinopsis;
 
+    // Relación uno a muchos con Episodio, donde Episodio tiene una referencia a Serie
     // Cascade ALL significa que las operaciones de persistencia, actualización y eliminación en Serie se propagan a Episodio
-    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL) // Relación uno a muchos con Episodio, donde Episodio tiene una referencia a Serie
+    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL, fetch = FetchType.EAGER) // FetchType.EAGER para cargar episodios junto con la serie y mostrarlos inmediatamente
     private List<Episodio> episodios;
 
     public Serie() {
