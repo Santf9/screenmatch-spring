@@ -12,11 +12,17 @@ public class Episodio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Generación automática del ID
     private Long Id; // Asumiendo que la clase tiene un campo id para la persistencia a la base de datos
+
     private Integer temporada;
+
     private String titulo;
+
     private Integer numeroEpisodio;
+
     private Double evaluacion;
+
     private LocalDate fechaLanzamiento;
+
     @ManyToOne
     private Serie serie;
 

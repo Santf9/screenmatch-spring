@@ -77,7 +77,7 @@ public class Main {
         // Optional para buscar la serie por nombre
         Optional<Serie> serie = series.stream()
                 .filter(s -> s.getTitulo().toLowerCase().contains(nombreSerie.toLowerCase()))
-                .findFirst(); // Buscar la serie por nombre
+                .findFirst(); // Buscar la primera serie por nombre
 
         if (serie.isPresent()) {
             var serieEncontrada = serie.get();

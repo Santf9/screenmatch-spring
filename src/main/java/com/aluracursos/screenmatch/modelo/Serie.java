@@ -12,16 +12,25 @@ public class Serie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Generación automática del ID
     private Long Id; // Asumiendo que la clase tiene un campo id para la persistencia a la base de datos
+
     @Column(unique = true) // Asegurando que el título sea único
     private String titulo;
+
     private Integer totalTemporadas;
+
     private Double evaluacion;
+
     private String poster;
+
     @Enumerated(EnumType.STRING) // Usando EnumType.STRING para almacenar el nombre del género como cadena
     private Categoria genero;
+
     private String actores;
+
     private String sinopsis;
-    @OneToMany(mappedBy = "serie")
+
+    // Cascade ALL significa que las operaciones de persistencia, actualización y eliminación en Serie se propagan a Episodio
+    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL) // Relación uno a muchos con Episodio, donde Episodio tiene una referencia a Serie
     private List<Episodio> episodios;
 
     public Serie() {
