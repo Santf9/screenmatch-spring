@@ -21,7 +21,7 @@ public class Serie {
     private Categoria genero;
     private String actores;
     private String sinopsis;
-    @Transient // Este campo no se persistirá en la base de datos
+    @OneToMany(mappedBy = "serie")
     private List<Episodio> episodios;
 
     public Serie() {
