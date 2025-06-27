@@ -128,8 +128,9 @@ public class Serie {
         return episodios;
     }
 
+    // Establecer la referencia a la serie en cada episodio | Esto asegura que cada episodio conozca su serie asociada FK
     public void setEpisodios(List<Episodio> episodios) {
-        episodios.forEach(episodio -> episodio.setSerie(this)); // Establecer la referencia a la serie en cada episodio
+        episodios.forEach(episodio -> episodio.setSerie(this));
         this.episodios = episodios;
     }
 }

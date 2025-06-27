@@ -35,6 +35,7 @@ public class Main {
                     2) - Buscar episodios
                     3) - Mostrar series buscadas
                     4) - Buscar serie por titulo
+                    5) - Top 5 mejores series
                   
                     0) - Salir
                     """;
@@ -55,6 +56,8 @@ public class Main {
                     break;
                 case 4:
                     buscarSeriesPorTitulo();
+                case 5:
+                    buscarTop5MejoresSeries();
                 case 0:
                     System.out.println("Cerrando la aplicación...");
                     break;
@@ -137,7 +140,7 @@ public class Main {
         System.out.println("Escribe el título de la serie que deseas buscar: ");
         String nombreSerie = scanner.nextLine();
 
-        // Buscar series por título en la base de datos con "Derived Query Method":
+        // Buscar series por título guardadas en la base de datos con "Derived Query Method":
         // Siempre cuando trabajas con Optional se utiliza if/else con metodo isPresent()
         Optional<Serie> serieBuscada = repositorio.findByTituloContainsIgnoreCase(nombreSerie);
 
@@ -148,6 +151,20 @@ public class Main {
         }
 
 
+    }
+
+    private void buscarTop5MejoresSeries() {
+        // Obtener las 5 series mejor valoradas
+        List<Serie> top5Series = repositorio.findTop5ByOrderByEvaluacionDesc();
+
+        if (top5Series.isEmpty()) {
+            System.out.println("No hay series en la base de datos.");
+            return;
+        }
+
+        // Mostrar el título y la evaluación de cada serie
+        top5Series.forEach(serie -> System.out.println("Las 5 mejores series son: \n"
+                + "Serie: " + serie.getTitulo() + ", Evaluación: " + serie.getEvaluacion()));
     }
 
 
