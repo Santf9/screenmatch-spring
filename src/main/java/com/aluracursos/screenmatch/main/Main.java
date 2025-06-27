@@ -34,6 +34,7 @@ public class Main {
                     1) - Buscar series
                     2) - Buscar episodios
                     3) - Mostrar series buscadas
+                    4) - Buscar serie por titulo
                   
                     0) - Salir
                     """;
@@ -52,6 +53,8 @@ public class Main {
                 case 3:
                     mostrarSeriesBuscadas();
                     break;
+                case 4:
+                    buscarSeriesPorTitulo();
                 case 0:
                     System.out.println("Cerrando la aplicación...");
                     break;
@@ -61,6 +64,7 @@ public class Main {
         }
     }
 
+    // OBTENER DATOS DE UNA SERIE DESDE LA API
     private DatosSerie getDatosSerie() {
         System.out.println("Escribe el nombre de la serie que deseas buscar: ");
         var nombreSerie = scanner.nextLine();
@@ -69,6 +73,7 @@ public class Main {
         return conversor.obtenerDatos(json, DatosSerie.class);
     }
 
+    // BUSCAR EPISODIOS DE UNA SERIE Y GUARDARLOS EN LA BASE DE DATOS
     private void buscarEpisodioPorSerie() {
         mostrarSeriesBuscadas();
         System.out.println("Escribe el nombre de la serie para buscar sus episodios: ");
@@ -102,6 +107,7 @@ public class Main {
 
     }
 
+    // BUSCAR CUALQUIER SERIE Y GUARDARLA EN LA BASE DE DATOS
     private void buscarSerieWeb() {
         DatosSerie datos = getDatosSerie();
         System.out.println(datos);
@@ -113,6 +119,7 @@ public class Main {
         //System.out.println(datos);
     }
 
+    // MOSTRAR LAS SERIES BUSCADAS Y ORDENADAS POR GÉNERO
     private void mostrarSeriesBuscadas() {
         series = repositorio.findAll(); // Obtener todas las series de la base de datos
 
@@ -121,14 +128,29 @@ public class Main {
             return;
         }
 
-//        List<Serie> series = new ArrayList<>();
-//        series = datosSeries.stream()
-//                .map(dato -> new Serie(dato))
-//                .toList();
-
         series.stream()
                 .sorted(Comparator.comparing(Serie::getGenero))
                 .forEach(System.out::println);
     }
+
+    private void buscarSeriesPorTitulo() {
+        System.out.println("Escribe el título de la serie que deseas buscar: ");
+        String nombreSerie = scanner.nextLine();
+
+        // Buscar series por título en la base de datos con "Derived Query Method":
+        // Siempre cuando trabajas con Optional se utiliza if/else con metodo isPresent()
+        Optional<Serie> serieBuscada = repositorio.findByTituloContainsIgnoreCase(nombreSerie);
+
+        if (serieBuscada.isPresent()) {
+            System.out.println("La serie encontrada es: " + serieBuscada.get());
+        } else {
+            System.out.println("No se encontraron series con el título: " + serieBuscada);
+        }
+
+
+    }
+
+
+
 }
 
