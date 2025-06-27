@@ -1,8 +1,5 @@
 package com.aluracursos.screenmatch.main;
-import com.aluracursos.screenmatch.modelo.DatosSerie;
-import com.aluracursos.screenmatch.modelo.DatosTemporada;
-import com.aluracursos.screenmatch.modelo.Episodio;
-import com.aluracursos.screenmatch.modelo.Serie;
+import com.aluracursos.screenmatch.modelo.*;
 import com.aluracursos.screenmatch.repository.SerieRepository;
 import com.aluracursos.screenmatch.service.ConsumoAPI;
 import com.aluracursos.screenmatch.service.ConvertirDatos;
@@ -31,11 +28,12 @@ public class Main {
         var opcion = -1;
         while (opcion != 0) {
             var menu = """
-                    1) - Buscar series
-                    2) - Buscar episodios
-                    3) - Mostrar series buscadas
-                    4) - Buscar serie por titulo
-                    5) - Top 5 mejores series
+                    1) - Buscar Series
+                    2) - Buscar Episodios
+                    3) - Mostrar Series buscadas
+                    4) - Buscar Serie por Titulo
+                    5) - Top 5 mejores Series
+                    6) - Buscar Series por Categoría
                   
                     0) - Salir
                     """;
@@ -56,8 +54,13 @@ public class Main {
                     break;
                 case 4:
                     buscarSeriesPorTitulo();
+                    break;
                 case 5:
                     buscarTop5MejoresSeries();
+                    break;
+                case 6:
+                    buscarSeriesPorCategoria();
+                    break;
                 case 0:
                     System.out.println("Cerrando la aplicación...");
                     break;
@@ -136,12 +139,12 @@ public class Main {
                 .forEach(System.out::println);
     }
 
+    // BUSCAR SERIES POR TITULO GUARDADAS EN LA BASE DE DATOS CON "DERIVED QUERY METHOD"
     private void buscarSeriesPorTitulo() {
         System.out.println("Escribe el título de la serie que deseas buscar: ");
         String nombreSerie = scanner.nextLine();
 
-        // Buscar series por título guardadas en la base de datos con "Derived Query Method":
-        // Siempre cuando trabajas con Optional se utiliza if/else con metodo isPresent()
+        // Siempre cuando trabajas con Optional se utiliza condicional con metodo isPresent()
         Optional<Serie> serieBuscada = repositorio.findByTituloContainsIgnoreCase(nombreSerie);
 
         if (serieBuscada.isPresent()) {
@@ -149,8 +152,6 @@ public class Main {
         } else {
             System.out.println("No se encontraron series con el título: " + serieBuscada);
         }
-
-
     }
 
     private void buscarTop5MejoresSeries() {
@@ -167,7 +168,25 @@ public class Main {
                 + "Serie: " + serie.getTitulo() + ", Evaluación: " + serie.getEvaluacion()));
     }
 
+    private void buscarSeriesPorCategoria() {
+        System.out.println("Escribe el Genero/Categoría de la serie que deseas buscar: ");
+        String genero = scanner.nextLine();
+        var categoria = Categoria.fromEspanol(genero);
 
+        // Buscar series por género guardadas en la base de datos con "Derived Query Method":
+        List<Serie> seriesPorCategoria = repositorio.findByGenero(categoria);
 
+        if (seriesPorCategoria.isEmpty()) {
+            System.out.println("No se encontraron series con la categoría: " + genero);
+            return;
+        }
+
+        System.out.println("Las series encontradas en la categoría " + genero + " son:");
+            seriesPorCategoria.forEach(System.out::println);
+    }
+
+    // Buscar series por un cierto número de temporadas y por una evaluacion en específico
+    // Es decir buscar en la base de datos todas las series que contengan solamente hasta tres temporadas
+    // Y que tengan evaluacion de 7.8
 }
 
