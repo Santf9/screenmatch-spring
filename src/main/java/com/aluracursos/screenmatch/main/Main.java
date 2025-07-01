@@ -14,7 +14,6 @@ public class Main {
     private final String URL_BASE = "https://www.omdbapi.com/?t=";
     private final Dotenv dotenv = Dotenv.load();
     private final ConvertirDatos conversor = new ConvertirDatos();
-    private final List<DatosSerie> datosSeries = new ArrayList<>();
     private final SerieRepository repositorio;
     private List<Serie> series;
 
@@ -63,7 +62,7 @@ public class Main {
                     buscarSeriesPorCategoria();
                     break;
                 case 7:
-                    buscarSeriesPersonalizada();
+                    buscarSeriesPorTemporadaYEvaluacion();
                     break;
                 case 0:
                     System.out.println("Cerrando la aplicación...");
@@ -124,9 +123,6 @@ public class Main {
 
         Serie serie = new Serie(datos);
         repositorio.save(serie); // Guardar la serie en la base de datos
-
-        //datosSeries.add(datos); // Agregar la serie a la lista de series buscadas
-        //System.out.println(datos);
     }
 
     // MOSTRAR LAS SERIES BUSCADAS Y ORDENADAS POR GÉNERO
@@ -190,7 +186,7 @@ public class Main {
     }
 
     // BÚSQUEDA PERSONALIZADA: Series con máximo número de temporadas y evaluación mínima
-    private void buscarSeriesPersonalizada() {
+    private void buscarSeriesPorTemporadaYEvaluacion() {
         System.out.println("=== BÚSQUEDA PERSONALIZADA DE SERIES ===");
         
         System.out.print("Ingresa el número máximo de temporadas: ");
@@ -200,31 +196,27 @@ public class Main {
         Double evaluacion = scanner.nextDouble();
         scanner.nextLine(); // Limpiar el buffer
         
-        // Realizar la búsqueda usando la consulta derivada
-        List<Serie> seriesEncontradas = repositorio.findByTotalTemporadasLessThanEqualAndEvaluacionGreaterThanEqual(
+        // Realizar la búsqueda usando la consulta derivada[Derived Query]
+        List<Serie> filtroSeries = repositorio.findByTotalTemporadasLessThanEqualAndEvaluacionGreaterThanEqual(
                 maxTemporadas, evaluacion);
         
-        if (seriesEncontradas.isEmpty()) {
+        if (filtroSeries.isEmpty()) {
             System.out.println("\n❌ No se encontraron series con los criterios especificados:");
             System.out.println(" • Máximo " + maxTemporadas + " temporadas");
             System.out.println(" • Evaluación mínima: " + evaluacion);
             return;
         }
         
-        System.out.println("\n✅ Se encontraron " + seriesEncontradas.size() + " serie(s) que cumplen los criterios:");
+        System.out.println("\n✅ Se encontraron " + filtroSeries.size() + " serie(s) que cumplen los criterios:");
         System.out.println(" • Máximo " + maxTemporadas + " temporadas");
         System.out.println(" • Evaluación mínima: " + evaluacion);
         System.out.println("\n=== RESULTADOS ===");
         
-        seriesEncontradas.forEach(serie -> {
-            System.out.println("📺 " + serie.getTitulo());
-            System.out.println("Temporadas: " + serie.getTotalTemporadas());
-            System.out.println("Evaluación: " + serie.getEvaluacion());
-            System.out.println("Género: " + serie.getGenero());
-        });
+        filtroSeries.forEach(serie ->
+            System.out.println("📺 " + serie.getTitulo() + " - Evaluacion: " + serie.getEvaluacion()));
         
         // Ejemplo específico mencionado en el requerimiento
-        System.out.println("\n💡 Ejemplo: Para buscar series con máximo 3 temporadas y evaluación ≥ 7.8");
+        System.out.println("\n💡Ejemplo: Para buscar series con máximo 3 temporadas y evaluación ≥ 7.8");
         System.out.println("Ingresa: 3 para temporadas y 7.8 para evaluación");
     }
 }
