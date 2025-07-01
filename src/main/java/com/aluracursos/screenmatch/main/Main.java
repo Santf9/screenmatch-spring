@@ -34,6 +34,7 @@ public class Main {
                     4) - Buscar Serie por Titulo
                     5) - Top 5 mejores Series
                     6) - Buscar Series por Categoría
+                    7) - Búsqueda Personalizada (Temporadas y Evaluación)
                   
                     0) - Salir
                     """;
@@ -60,6 +61,9 @@ public class Main {
                     break;
                 case 6:
                     buscarSeriesPorCategoria();
+                    break;
+                case 7:
+                    buscarSeriesPersonalizada();
                     break;
                 case 0:
                     System.out.println("Cerrando la aplicación...");
@@ -185,8 +189,43 @@ public class Main {
             seriesPorCategoria.forEach(System.out::println);
     }
 
-    // Buscar series por un cierto número de temporadas y por una evaluacion en específico
-    // Es decir buscar en la base de datos todas las series que contengan solamente hasta tres temporadas
-    // Y que tengan evaluacion de 7.8
+    // BÚSQUEDA PERSONALIZADA: Series con máximo número de temporadas y evaluación mínima
+    private void buscarSeriesPersonalizada() {
+        System.out.println("=== BÚSQUEDA PERSONALIZADA DE SERIES ===");
+        
+        System.out.print("Ingresa el número máximo de temporadas: ");
+        Integer maxTemporadas = scanner.nextInt();
+        
+        System.out.print("Ingresa la evaluación mínima: ");
+        Double evaluacion = scanner.nextDouble();
+        scanner.nextLine(); // Limpiar el buffer
+        
+        // Realizar la búsqueda usando la consulta derivada
+        List<Serie> seriesEncontradas = repositorio.findByTotalTemporadasLessThanEqualAndEvaluacionGreaterThanEqual(
+                maxTemporadas, evaluacion);
+        
+        if (seriesEncontradas.isEmpty()) {
+            System.out.println("\n❌ No se encontraron series con los criterios especificados:");
+            System.out.println(" • Máximo " + maxTemporadas + " temporadas");
+            System.out.println(" • Evaluación mínima: " + evaluacion);
+            return;
+        }
+        
+        System.out.println("\n✅ Se encontraron " + seriesEncontradas.size() + " serie(s) que cumplen los criterios:");
+        System.out.println(" • Máximo " + maxTemporadas + " temporadas");
+        System.out.println(" • Evaluación mínima: " + evaluacion);
+        System.out.println("\n=== RESULTADOS ===");
+        
+        seriesEncontradas.forEach(serie -> {
+            System.out.println("📺 " + serie.getTitulo());
+            System.out.println("Temporadas: " + serie.getTotalTemporadas());
+            System.out.println("Evaluación: " + serie.getEvaluacion());
+            System.out.println("Género: " + serie.getGenero());
+        });
+        
+        // Ejemplo específico mencionado en el requerimiento
+        System.out.println("\n💡 Ejemplo: Para buscar series con máximo 3 temporadas y evaluación ≥ 7.8");
+        System.out.println("Ingresa: 3 para temporadas y 7.8 para evaluación");
+    }
 }
 

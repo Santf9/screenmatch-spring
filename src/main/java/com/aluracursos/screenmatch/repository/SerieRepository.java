@@ -16,4 +16,7 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
 
     List<Serie> findByGenero(Categoria categoria);
 
+    // Búsqueda personalizada: series con máximo número de temporadas y evaluación mínima
+    List<Serie> findByTotalTemporadasLessThanEqualAndEvaluacionGreaterThanEqual(Integer totalTemporadas, Double Evaluacion);
+
 }
