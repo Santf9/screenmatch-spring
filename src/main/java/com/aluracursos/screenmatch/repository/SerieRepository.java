@@ -1,6 +1,7 @@
 package com.aluracursos.screenmatch.repository;
 
 import com.aluracursos.screenmatch.modelo.Categoria;
+import com.aluracursos.screenmatch.modelo.Episodio;
 import com.aluracursos.screenmatch.modelo.Serie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -27,6 +28,10 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
     // Misma consulta personalizada utilizando (JPQL) - Trabajamos con Clases donde Persistimos los datos
     @Query("SELECT s FROM Serie s WHERE s.totalTemporadas <= :totalTemporadas AND s.evaluacion >= :evaluacion")
     List<Serie> seriesPorTemporadasYEvaluacionJPQL(Integer totalTemporadas, Double Evaluacion);
+
+    // Buscar episodios por nombre
+    @Query("SELECT e FROM Serie s JOIN s.episodios e WHERE e.titulo ILIKE %:nombreEpisodio%")
+    List<Episodio> episodiosPorNombre(String nombreEpisodio);
 
 
 }

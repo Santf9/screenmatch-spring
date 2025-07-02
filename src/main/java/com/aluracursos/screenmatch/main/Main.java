@@ -34,6 +34,7 @@ public class Main {
                     5) - Top 5 mejores Series
                     6) - Buscar Series por Categoría
                     7) - Búsqueda Personalizada (Temporadas y Evaluación)
+                    8) - Buscar Episodios por Nombre
                   
                     0) - Salir
                     """;
@@ -63,6 +64,9 @@ public class Main {
                     break;
                 case 7:
                     buscarSeriesPorTemporadaYEvaluacion();
+                    break;
+                case 8:
+                    buscarEpisodioPorTitulo();
                     break;
                 case 0:
                     System.out.println("Cerrando la aplicación...");
@@ -188,34 +192,51 @@ public class Main {
     // BÚSQUEDA PERSONALIZADA: Series con máximo número de temporadas y evaluación mínima
     private void buscarSeriesPorTemporadaYEvaluacion() {
         System.out.println("=== BÚSQUEDA PERSONALIZADA DE SERIES ===");
-        
+
         System.out.print("Ingresa el número máximo de temporadas: ");
         var maxTemporadas = scanner.nextInt();
-        
+
         System.out.print("Ingresa la evaluación mínima: ");
         var evaluacion = scanner.nextDouble();
-        
+
         // Realizar la búsqueda usando la consulta derivada [DERIVED QUERY]
         List<Serie> filtroSeries = repositorio.seriesPorTemporadasYEvaluacion();
-        
+
         if (filtroSeries.isEmpty()) {
             System.out.println("\n❌ No se encontraron series con los criterios especificados:");
             System.out.println(" • Máximo " + maxTemporadas + " temporadas");
             System.out.println(" • Evaluación mínima: " + evaluacion);
             return;
         }
-        
+
         System.out.println("\n✅ Se encontraron " + filtroSeries.size() + " serie(s) que cumplen los criterios:");
         System.out.println(" • Máximo " + maxTemporadas + " temporadas");
         System.out.println(" • Evaluación mínima: " + evaluacion);
         System.out.println("\n=== RESULTADOS ===");
-        
+
         filtroSeries.forEach(serie ->
             System.out.println("📺 " + serie.getTitulo() + " - Evaluacion: " + serie.getEvaluacion()));
-        
+
         // Ejemplo específico mencionado en el requerimiento
         System.out.println("\n💡Ejemplo: Para buscar series con máximo 3 temporadas y evaluación ≥ 7.8");
         System.out.println("Ingresa: 3 para temporadas y 7.8 para evaluación");
+    }
+
+    // Buscar episodios por nombre
+    private void buscarEpisodioPorTitulo() {
+        System.out.println("Escribe el nombre del episodio que deseas buscar: ");
+        String nombreEpisodio = scanner.nextLine();
+        List<Episodio> filtroEpisodio = repositorio.episodiosPorNombre(nombreEpisodio);
+
+        if (filtroEpisodio.isEmpty()) {
+            System.out.println("No se encontraron episodios con el nombre: " + nombreEpisodio);
+            return;
+        }
+
+        filtroEpisodio.forEach(episodio ->
+            System.out.printf("Serie: %s, Temp orada: %s, Episodio: %s, Título: %s, Evaluación: %s\n",
+                    episodio.getSerie(), episodio.getTemporada(), episodio.getNumeroEpisodio(), episodio.getTitulo(),
+                    episodio.getEvaluacion()));
     }
 }
 
