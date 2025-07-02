@@ -195,7 +195,7 @@ public class Main {
         System.out.print("Ingresa la evaluación mínima: ");
         var evaluacion = scanner.nextDouble();
         
-        // Realizar la búsqueda usando la consulta derivada[DERIVED QUERY]
+        // Realizar la búsqueda usando la consulta derivada [DERIVED QUERY]
         List<Serie> filtroSeries = repositorio.seriesPorTemporadasYEvaluacion();
         
         if (filtroSeries.isEmpty()) {

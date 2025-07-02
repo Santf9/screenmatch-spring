@@ -26,7 +26,7 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
 
     // Misma consulta personalizada utilizando (JPQL) - Trabajamos con Clases donde Persistimos los datos
     @Query("SELECT s FROM Serie s WHERE s.totalTemporadas <= :totalTemporadas AND s.evaluacion >= :evaluacion")
-    List<Serie> seriesPorTemporadasYEvaluacion(Integer totalTemporadas, Double Evaluacion);
+    List<Serie> seriesPorTemporadasYEvaluacionJPQL(Integer totalTemporadas, Double Evaluacion);
 
 
 }
