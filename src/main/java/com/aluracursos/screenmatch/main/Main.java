@@ -190,15 +190,13 @@ public class Main {
         System.out.println("=== BÚSQUEDA PERSONALIZADA DE SERIES ===");
         
         System.out.print("Ingresa el número máximo de temporadas: ");
-        Integer maxTemporadas = scanner.nextInt();
+        var maxTemporadas = scanner.nextInt();
         
         System.out.print("Ingresa la evaluación mínima: ");
-        Double evaluacion = scanner.nextDouble();
-        scanner.nextLine(); // Limpiar el buffer
+        var evaluacion = scanner.nextDouble();
         
-        // Realizar la búsqueda usando la consulta derivada[Derived Query]
-        List<Serie> filtroSeries = repositorio.findByTotalTemporadasLessThanEqualAndEvaluacionGreaterThanEqual(
-                maxTemporadas, evaluacion);
+        // Realizar la búsqueda usando la consulta derivada[DERIVED QUERY]
+        List<Serie> filtroSeries = repositorio.seriesPorTemporadasYEvaluacion();
         
         if (filtroSeries.isEmpty()) {
             System.out.println("\n❌ No se encontraron series con los criterios especificados:");
