@@ -29,7 +29,5 @@ public class ScreenmatchApplication implements CommandLineRunner {
 
 		Main main = new Main(repository); // Instancia de la clase Main con el repositorio inyectado
 		main.mostrarMenu();
-
-
 	}
 }

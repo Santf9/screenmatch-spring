@@ -20,6 +20,7 @@ public class Main {
 
     String apiKey = dotenv.get("API_KEY");
 
+    // Constructor que recibe el repositorio de Serie para poder interactuar con la base de datos
     public Main(SerieRepository repository) {
         this.repositorio = repository;
     }
