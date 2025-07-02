@@ -14,7 +14,8 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
     // Por ejemplo, para buscar series por título:
     Optional<Serie> findByTituloContainsIgnoreCase(String nombreSerie);
 
-    List<Serie> findTop5ByOrderByEvaluacionDesc(); // Metodo para obtener las 5 series mejor valoradas
+    // Metodo para obtener las 5 series mejor valoradas
+    List<Serie> findTop5ByOrderByEvaluacionDesc();
 
     List<Serie> findByGenero(Categoria categoria);
 
@@ -33,5 +34,8 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
     @Query("SELECT e FROM Serie s JOIN s.episodios e WHERE e.titulo ILIKE %:nombreEpisodio%")
     List<Episodio> episodiosPorNombre(String nombreEpisodio);
 
+    // Top 5 mejores episodios por serie
+    @Query("SELECT e FROM Serie s JOIN s.episodios e WHERE s.titulo = :titulo ORDER BY e.evaluacion DESC LIMIT 5")
+    List<Episodio> top5EpisodiosPorSerie(Serie titulo);
 
 }

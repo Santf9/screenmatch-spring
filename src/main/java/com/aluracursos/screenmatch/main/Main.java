@@ -16,6 +16,7 @@ public class Main {
     private final ConvertirDatos conversor = new ConvertirDatos();
     private final SerieRepository repositorio;
     private List<Serie> series;
+    private Optional<Serie> serieBuscada;
 
     String apiKey = dotenv.get("API_KEY");
 
@@ -35,7 +36,7 @@ public class Main {
                     6) - Buscar Series por Categoría
                     7) - Búsqueda Personalizada (Temporadas y Evaluación)
                     8) - Buscar Episodios por Nombre
-                  
+                    
                     0) - Salir
                     """;
 
@@ -68,6 +69,8 @@ public class Main {
                 case 8:
                     buscarEpisodioPorTitulo();
                     break;
+                case 9:
+                    buscarTop5EpisodiosPorSerie();
                 case 0:
                     System.out.println("Cerrando la aplicación...");
                     break;
@@ -149,7 +152,7 @@ public class Main {
         String nombreSerie = scanner.nextLine();
 
         // Siempre cuando trabajas con Optional se utiliza condicional con metodo isPresent()
-        Optional<Serie> serieBuscada = repositorio.findByTituloContainsIgnoreCase(nombreSerie);
+        serieBuscada = repositorio.findByTituloContainsIgnoreCase(nombreSerie);
 
         if (serieBuscada.isPresent()) {
             System.out.println("La serie encontrada es: " + serieBuscada.get());
@@ -158,8 +161,8 @@ public class Main {
         }
     }
 
+    // OBTENER LAS 5 MEJORES SERIES
     private void buscarTop5MejoresSeries() {
-        // Obtener las 5 series mejor valoradas
         List<Serie> top5Series = repositorio.findTop5ByOrderByEvaluacionDesc();
 
         if (top5Series.isEmpty()) {
@@ -172,6 +175,7 @@ public class Main {
                 + "Serie: " + serie.getTitulo() + ", Evaluación: " + serie.getEvaluacion()));
     }
 
+    // BUSCAR SERIES POR GENERO/CATEGORÍA GUARDADAS EN LA BASE DE DATOS
     private void buscarSeriesPorCategoria() {
         System.out.println("Escribe el Genero/Categoría de la serie que deseas buscar: ");
         String genero = scanner.nextLine();
@@ -186,7 +190,7 @@ public class Main {
         }
 
         System.out.println("Las series encontradas en la categoría " + genero + " son:");
-            seriesPorCategoria.forEach(System.out::println);
+        seriesPorCategoria.forEach(System.out::println);
     }
 
     // BÚSQUEDA PERSONALIZADA: Series con máximo número de temporadas y evaluación mínima
@@ -215,17 +219,17 @@ public class Main {
         System.out.println("\n=== RESULTADOS ===");
 
         filtroSeries.forEach(serie ->
-            System.out.println("📺 " + serie.getTitulo() + " - Evaluacion: " + serie.getEvaluacion()));
+                System.out.println("📺 " + serie.getTitulo() + " - Evaluacion: " + serie.getEvaluacion()));
 
         // Ejemplo específico mencionado en el requerimiento
         System.out.println("\n💡Ejemplo: Para buscar series con máximo 3 temporadas y evaluación ≥ 7.8");
         System.out.println("Ingresa: 3 para temporadas y 7.8 para evaluación");
     }
 
-    // Buscar episodios por nombre
+    // BUSCAR EPISODIOS POR TITULO
     private void buscarEpisodioPorTitulo() {
         System.out.println("Escribe el nombre del episodio que deseas buscar: ");
-        String nombreEpisodio = scanner.nextLine();
+        var nombreEpisodio = scanner.nextLine();
         List<Episodio> filtroEpisodio = repositorio.episodiosPorNombre(nombreEpisodio);
 
         if (filtroEpisodio.isEmpty()) {
@@ -234,9 +238,29 @@ public class Main {
         }
 
         filtroEpisodio.forEach(episodio ->
-            System.out.printf("Serie: %s, Temp orada: %s, Episodio: %s, Título: %s, Evaluación: %s\n",
-                    episodio.getSerie(), episodio.getTemporada(), episodio.getNumeroEpisodio(), episodio.getTitulo(),
-                    episodio.getEvaluacion()));
+                System.out.printf("Serie: %s, Temporada: %s, Episodio: %s, Título: %s, Evaluación: %s\n",
+                        episodio.getSerie(), episodio.getTemporada(), episodio.getNumeroEpisodio(), episodio.getTitulo(),
+                        episodio.getEvaluacion()));
+    }
+
+    // TOP 5 MEJORES EPISODIOS POR SERIE
+    private void buscarTop5EpisodiosPorSerie() {
+        buscarSeriesPorTitulo();
+
+        if (serieBuscada.isPresent()) {
+            Serie serie = serieBuscada.get();
+
+            List<Episodio> top5Episodios = repositorio.top5EpisodiosPorSerie(serie);
+
+            if (top5Episodios.isEmpty()) {
+                System.out.println("No se encontraron episodios para la serie: " + serie);
+            } else {
+                System.out.println("Los 5 mejores episodios de la serie " + serie + " son: ");
+                top5Episodios.forEach(episodio ->
+                        System.out.printf("Temporada: %s, Episodio: %s, Título: %s, Evaluación: %s\n",
+                                episodio.getTemporada(), episodio.getNumeroEpisodio(), episodio.getTitulo(),
+                                episodio.getEvaluacion()));
+            }
+        }
     }
 }
-
