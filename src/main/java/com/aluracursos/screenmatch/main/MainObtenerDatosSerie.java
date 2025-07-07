@@ -1,9 +1,9 @@
 package com.aluracursos.screenmatch.main;
 
-import com.aluracursos.screenmatch.modelo.DatosEpisodio;
-import com.aluracursos.screenmatch.modelo.DatosSerie;
-import com.aluracursos.screenmatch.modelo.DatosTemporada;
-import com.aluracursos.screenmatch.modelo.Episodio;
+import com.aluracursos.screenmatch.model.DatosEpisodio;
+import com.aluracursos.screenmatch.model.DatosSerie;
+import com.aluracursos.screenmatch.model.DatosTemporada;
+import com.aluracursos.screenmatch.model.Episodio;
 import com.aluracursos.screenmatch.service.ConsumoAPI;
 import com.aluracursos.screenmatch.service.ConvertirDatos;
 import io.github.cdimascio.dotenv.Dotenv;

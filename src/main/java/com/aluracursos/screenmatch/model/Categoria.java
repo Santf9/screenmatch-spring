@@ -1,4 +1,4 @@
-package com.aluracursos.screenmatch.modelo;
+package com.aluracursos.screenmatch.model;
 
 public enum Categoria {
     // Atributos de la categoría

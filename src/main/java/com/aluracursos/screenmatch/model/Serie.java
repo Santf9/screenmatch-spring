@@ -1,5 +1,4 @@
-package com.aluracursos.screenmatch.modelo;
-
+package com.aluracursos.screenmatch.model;
 import com.aluracursos.screenmatch.service.ConsultaGemini;
 import jakarta.persistence.*;
 import java.util.List;

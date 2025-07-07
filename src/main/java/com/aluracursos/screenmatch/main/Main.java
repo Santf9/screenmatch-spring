@@ -1,5 +1,5 @@
 package com.aluracursos.screenmatch.main;
-import com.aluracursos.screenmatch.modelo.*;
+import com.aluracursos.screenmatch.model.*;
 import com.aluracursos.screenmatch.repository.SerieRepository;
 import com.aluracursos.screenmatch.service.ConsumoAPI;
 import com.aluracursos.screenmatch.service.ConvertirDatos;
