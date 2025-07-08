@@ -1,6 +1,6 @@
 package com.aluracursos.screenmatch.main;
 import com.aluracursos.screenmatch.model.*;
-import com.aluracursos.screenmatch.repository.SerieRepository;
+import com.aluracursos.screenmatch.repository.ISerieRepository;
 import com.aluracursos.screenmatch.service.ConsumoAPI;
 import com.aluracursos.screenmatch.service.ConvertirDatos;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -14,14 +14,14 @@ public class Main {
     private final String URL_BASE = "https://www.omdbapi.com/?t=";
     private final Dotenv dotenv = Dotenv.load();
     private final ConvertirDatos conversor = new ConvertirDatos();
-    private final SerieRepository repositorio;
+    private final ISerieRepository repositorio;
     private List<Serie> series;
     private Optional<Serie> serieBuscada;
 
     String apiKey = dotenv.get("API_KEY");
 
     // Constructor que recibe el repositorio de Serie para poder interactuar con la base de datos
-    public Main(SerieRepository repository) {
+    public Main(ISerieRepository repository) {
         this.repositorio = repository;
     }
 
