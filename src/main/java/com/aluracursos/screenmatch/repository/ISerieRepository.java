@@ -10,10 +10,10 @@ import java.util.Optional;
 
 public interface ISerieRepository extends JpaRepository<Serie, Long> {
 
-    // Por ejemplo, para buscar series por título:
+    // Por ejemplo, para buscar series por título: [DERIVED QUERY]
     Optional<Serie> findByTituloContainsIgnoreCase(String nombreSerie);
 
-    // Metodo para obtener las 5 series mejor valoradas
+    // Metodo para obtener las 5 series mejor valoradas [DERIVED QUERY]
     List<Serie> findTop5ByOrderByEvaluacionDesc();
 
     List<Serie> findByGenero(Categoria categoria);

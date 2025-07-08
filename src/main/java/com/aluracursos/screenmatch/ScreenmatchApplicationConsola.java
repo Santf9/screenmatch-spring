@@ -1,7 +1,6 @@
 //package com.aluracursos.screenmatch;
-//
 //import com.aluracursos.screenmatch.main.Main;
-//import com.aluracursos.screenmatch.repository.SerieRepository;
+//import com.aluracursos.screenmatch.repository.ISerieRepository;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.CommandLineRunner;
 //import org.springframework.boot.SpringApplication;
@@ -12,7 +11,7 @@
 //
 //	// Inyectar el repositorio de Serie para poder interactuar con la base de datos - Inyección de dependencias
 //	@Autowired
-//	private SerieRepository repository;
+//	private ISerieRepository repository;
 //
 //	public static void main(String[] args) {
 //		SpringApplication.run(ScreenmatchApplicationConsola.class, args);
