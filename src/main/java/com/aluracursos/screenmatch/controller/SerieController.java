@@ -3,6 +3,7 @@ import com.aluracursos.screenmatch.dto.SerieDTO;
 import com.aluracursos.screenmatch.service.SerieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
@@ -28,5 +29,11 @@ public class SerieController {
     @GetMapping("/lanzamientos") // El endpoint debe llamarse igual que en el manejo de rutas del Frontend
     public List<SerieDTO> obtenerLanzamientoMasReciente() {
         return servicio.obtenerLanzamientoMasReciente();
+    }
+
+    @GetMapping("/{id}") // Parámetro dinámico para obtener una serie por su ID
+    public SerieDTO obtenerSeriePorId(@PathVariable Long id) {
+        return servicio.obtenerSeriePorId(id);
+
     }
 }
