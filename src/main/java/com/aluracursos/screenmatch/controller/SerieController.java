@@ -1,7 +1,6 @@
 package com.aluracursos.screenmatch.controller;
-
 import com.aluracursos.screenmatch.dto.SerieDTO;
-import com.aluracursos.screenmatch.repository.ISerieRepository;
+import com.aluracursos.screenmatch.service.SerieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,20 +10,11 @@ import java.util.List;
 public class SerieController {
 
     @Autowired
-    private ISerieRepository repository;
+    private SerieService servicio;
 
-    // Ejemplo de un endpoint para obtener todas las series
+    // Ejemplo de un endpoint para obtener todas las series devolviendo una lista de SerieDTO
     @GetMapping("/series")
     public List<SerieDTO> obtenerTodasLasSeries() {
-        return repository.findAll().stream()
-                .map(serie -> new SerieDTO(
-                        serie.getTitulo(),
-                        serie.getTotalTemporadas(),
-                        String.valueOf(serie.getEvaluacion()),
-                        serie.getPoster(),
-                        serie.getGenero(),
-                        serie.getActores(),
-                        serie.getSinopsis()))
-                .toList();
+        return servicio.obtenerTodasLasSeries();
     }
 }
