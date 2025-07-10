@@ -1,5 +1,6 @@
 package com.aluracursos.screenmatch.service;
 
+import com.aluracursos.screenmatch.dto.EpisodioDTO;
 import com.aluracursos.screenmatch.dto.SerieDTO;
 import com.aluracursos.screenmatch.model.Serie;
 import com.aluracursos.screenmatch.repository.ISerieRepository;
@@ -12,7 +13,7 @@ import java.util.Optional;
 @Service
 public class SerieService {
 
-    @Autowired
+    @Autowired // Inyección de dependencia para el repository
     private ISerieRepository repository;
 
     public List<SerieDTO> obtenerTodasLasSeries() {
@@ -44,6 +45,21 @@ public class SerieService {
         } else {
            return null;
         }
+    }
+
+    public List<EpisodioDTO> obtenerTodasLasTemporadas(Long id) {
+        Optional<Serie> episodio = repository.findById(id);
+
+        if (episodio.isPresent()){
+            var serie = episodio.get();
+            return serie.getEpisodios().stream()
+                    .map(episodios -> new EpisodioDTO(
+                            episodios.getTemporada(),
+                            episodios.getTitulo(),
+                            episodios.getNumeroEpisodio()))
+                    .toList();
+        }
+        return null;
     }
 
     public List<SerieDTO> convertirDatos(List<Serie> serie) {

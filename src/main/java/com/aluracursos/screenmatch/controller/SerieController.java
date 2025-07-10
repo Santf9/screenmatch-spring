@@ -1,5 +1,7 @@
 package com.aluracursos.screenmatch.controller;
+import com.aluracursos.screenmatch.dto.EpisodioDTO;
 import com.aluracursos.screenmatch.dto.SerieDTO;
+import com.aluracursos.screenmatch.model.Episodio;
 import com.aluracursos.screenmatch.service.SerieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +14,7 @@ import java.util.List;
 @RequestMapping("/series") // Definimos el prefijo de la URL para los endpoints de esta clase
 public class SerieController {
 
-    @Autowired
+    @Autowired // Inyección de dependencia para el service
     private SerieService servicio;
 
     // Ejemplo de un endpoint para obtener todas las series devolviendo una lista de SerieDTO
@@ -31,9 +33,15 @@ public class SerieController {
         return servicio.obtenerLanzamientoMasReciente();
     }
 
-    @GetMapping("/{id}") // Parámetro dinámico para obtener una serie por su ID
+    @GetMapping("/{id}") // Parámetro dinámico para retornar los datos de una serie por su ID
     public SerieDTO obtenerSeriePorId(@PathVariable Long id) {
         return servicio.obtenerSeriePorId(id);
 
     }
+
+    @GetMapping("{id}/temporadas/todas")
+    public List<EpisodioDTO> obtenerTodasLasTemporadas(@PathVariable Long id) {
+        return servicio.obtenerTodasLasTemporadas(id);
+    }
+
 }
