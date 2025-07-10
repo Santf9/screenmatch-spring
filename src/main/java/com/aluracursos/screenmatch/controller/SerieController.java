@@ -1,7 +1,6 @@
 package com.aluracursos.screenmatch.controller;
 import com.aluracursos.screenmatch.dto.EpisodioDTO;
 import com.aluracursos.screenmatch.dto.SerieDTO;
-import com.aluracursos.screenmatch.model.Episodio;
 import com.aluracursos.screenmatch.service.SerieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,6 +41,11 @@ public class SerieController {
     @GetMapping("{id}/temporadas/todas")
     public List<EpisodioDTO> obtenerTodasLasTemporadas(@PathVariable Long id) {
         return servicio.obtenerTodasLasTemporadas(id);
+    }
+
+    @GetMapping("{id}/temporadas/{numeroTemporada}") // Los parámetros dinámicos deben ser iguales que en los parámetros del metodo
+    public List<EpisodioDTO> obtenerTemporadaPorNumero(@PathVariable Long id, @PathVariable Integer numeroTemporada) {
+        return servicio.obtenerEpisodiosPorTemporada(id, numeroTemporada);
     }
 
 }

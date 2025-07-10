@@ -2,6 +2,7 @@ package com.aluracursos.screenmatch.service;
 
 import com.aluracursos.screenmatch.dto.EpisodioDTO;
 import com.aluracursos.screenmatch.dto.SerieDTO;
+import com.aluracursos.screenmatch.model.Episodio;
 import com.aluracursos.screenmatch.model.Serie;
 import com.aluracursos.screenmatch.repository.ISerieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +18,15 @@ public class SerieService {
     private ISerieRepository repository;
 
     public List<SerieDTO> obtenerTodasLasSeries() {
-        return convertirDatos(repository.findAll());
+        return convertirDatosSerie(repository.findAll());
     }
 
     public List<SerieDTO> obtenerTop5Series() {
-        return convertirDatos(repository.findTop5ByOrderByEvaluacionDesc());
+        return convertirDatosSerie(repository.findTop5ByOrderByEvaluacionDesc());
     }
 
     public List<SerieDTO> obtenerLanzamientoMasReciente() {
-        return convertirDatos(repository.lanzamientosMasReciente());
+        return convertirDatosSerie(repository.lanzamientosMasReciente());
     }
 
     public SerieDTO obtenerSeriePorId(Long id) {
@@ -62,7 +63,12 @@ public class SerieService {
         return null;
     }
 
-    public List<SerieDTO> convertirDatos(List<Serie> serie) {
+    public List<EpisodioDTO> obtenerEpisodiosPorTemporada(Long id, Integer numeroTemporada) {
+        return convertirDatosEpisodios(repository.obtenerPorNumeroDeTemporada(id, numeroTemporada));
+    }
+
+    // Métodos para convertir las listas de Serie y Episodios a sus respectivos DTO
+    public List<SerieDTO> convertirDatosSerie(List<Serie> serie) {
         return serie.stream()
                 .map(serieItem -> new SerieDTO(
                         serieItem.getId(),
@@ -73,6 +79,15 @@ public class SerieService {
                         serieItem.getGenero(),
                         serieItem.getActores(),
                         serieItem.getSinopsis()))
+                .toList();
+    }
+
+    public List<EpisodioDTO> convertirDatosEpisodios(List<Episodio> episodios) {
+        return episodios.stream()
+                .map(episodio -> new EpisodioDTO(
+                        episodio.getTemporada(),
+                        episodio.getTitulo(),
+                        episodio.getNumeroEpisodio()))
                 .toList();
     }
 }
